@@ -7,7 +7,7 @@ private let kGitHubBearerToken = "API_KEY"
 private let kGitHubURLPath = "https://api.github.com/graphql"
 
 
-private let store = ApolloStore(cache: .local)
+private let store = ApolloStore(cache: SQLiteNormalizedCache.local)
 private var sharedClient = ApolloClient(
   networkTransport: RequestChainNetworkTransport(
     interceptorProvider: DefaultInterceptorProvider(store: store),
