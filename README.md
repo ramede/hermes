@@ -2,6 +2,8 @@
 
 <img src="https://cdn.worldvectorlogo.com/logos/graphql.svg" width="200" height="200" /><img src="https://d2z5w7rcu7bmie.cloudfront.net/assets/images/logo.png" width="200" height="200" />
 
+> ❗When you have finished working on your submission, reply back to the email with the recruiter with a link to your repository fork.
+
 ## Goal
 
 Build a universial iOS app that queries GitHub for repositories that mention the phrase `GraphQL`.
