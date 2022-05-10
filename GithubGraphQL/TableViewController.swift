@@ -4,6 +4,8 @@ class TableViewController: UITableViewController {
     
     private let searchController = UISearchController(searchResultsController: nil)
     
+    private var repositories: [RepositoryDetails] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
