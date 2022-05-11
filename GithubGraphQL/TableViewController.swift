@@ -2,15 +2,16 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
+    // MARK: - Private properties
     private let searchController = UISearchController(searchResultsController: nil)
+    private let viewModel = ViewModel()
     
-    private var repositories: [String] = ["Foo", "Foo", "Foo", "Foo"]
+    private var repositories: [RepositoryDetails] = []
     
+    // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ViewModel().search(phrase: "graphql")
-        
+        viewModel.search(phrase: "graphql")
         setup()
     }
     
@@ -20,10 +21,28 @@ class TableViewController: UITableViewController {
 private extension TableViewController {
     
     func setup() {
+        bindViewModelClousures()
         setupNavigationBar()
         setupSerachController()
         setupTableView()
         setupConstraints()
+    }
+    
+    func bindViewModelClousures() {
+        viewModel.didUpdateViewState = { [weak self] viewModelState in
+            guard let self = self else { return }
+            switch viewModelState {
+            case .hasData(let searchResultViewEntity):
+                self.repositories = searchResultViewEntity.repos
+                //DispatchQueue.main.sync {
+                    self.tableView.reloadData()
+                //}
+            default:
+                print("Foo")
+            }
+            
+            
+        }
     }
     
     func setupNavigationBar() {
@@ -59,6 +78,7 @@ private extension TableViewController {
         searchController.searchBar.backgroundImage = UIImage()
         searchController.searchBar.delegate = self
         searchController.searchBar.barTintColor = .systemGray6
+        searchController.searchBar.text = "graphql"
     }
     
     func setupConstraints() {
@@ -89,6 +109,10 @@ extension TableViewController {
             for: indexPath
         ) as? TableViewCell else { return UITableViewCell() }
 
+        cell.name = "\(repositories[indexPath.row].owner.login)/\(repositories[indexPath.row].name)"
+        cell.repositoryDescription = repositories[indexPath.row].description ?? ""
+        cell.stars = String(repositories[indexPath.row].stargazers.totalCount)
+        
         return cell
     }
     
@@ -97,4 +121,3 @@ extension TableViewController {
     }
     
 }
-

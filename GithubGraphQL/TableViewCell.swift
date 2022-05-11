@@ -29,6 +29,12 @@ class TableViewCell: UITableViewCell {
             descriptionLabel.text = repositoryDescription
         }
     }
+    
+    var stars: String = "" {
+        didSet {
+            starsLabel.text = stars
+        }
+    }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -59,7 +65,7 @@ private extension TableViewCell {
         }
         
         enum DescriptionLabel {
-            static let top: CGFloat = 8
+            static let top: CGFloat = 12
             static let leading: CGFloat = 16
             static let trailing: CGFloat = -16
         }
