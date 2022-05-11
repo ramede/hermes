@@ -10,6 +10,9 @@
 		1B647FD3282AEC9400CFB498 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B647FD2282AEC9400CFB498 /* View.swift */; };
 		1B647FD6282AF7B300CFB498 /* UINavigationController+StatusBarColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B647FD5282AF7B300CFB498 /* UINavigationController+StatusBarColor.swift */; };
 		1B647FD8282AFA6500CFB498 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B647FD7282AFA6500CFB498 /* TableViewCell.swift */; };
+		1B647FDA282C4AEC00CFB498 /* IntExtension+1000FriendlyK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B647FD9282C4AEC00CFB498 /* IntExtension+1000FriendlyK.swift */; };
+		1B647FE0282C4CA800CFB498 /* ViewModelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B647FDF282C4CA800CFB498 /* ViewModelState.swift */; };
+		1B647FE3282C4CD000CFB498 /* SearchResultEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B647FE2282C4CD000CFB498 /* SearchResultEntity.swift */; };
 		D806B6B527C71F1C006F594D /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = D806B6B427C71F1C006F594D /* Apollo */; };
 		D806B6B727C71F1C006F594D /* ApolloSQLite in Frameworks */ = {isa = PBXBuildFile; productRef = D806B6B627C71F1C006F594D /* ApolloSQLite */; };
 		D84E7B1127C81B88000DEB5B /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84E7B1027C81B88000DEB5B /* MockData.swift */; };
@@ -51,6 +54,9 @@
 		1B647FD2282AEC9400CFB498 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		1B647FD5282AF7B300CFB498 /* UINavigationController+StatusBarColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+StatusBarColor.swift"; sourceTree = "<group>"; };
 		1B647FD7282AFA6500CFB498 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		1B647FD9282C4AEC00CFB498 /* IntExtension+1000FriendlyK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IntExtension+1000FriendlyK.swift"; sourceTree = "<group>"; };
+		1B647FDF282C4CA800CFB498 /* ViewModelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelState.swift; sourceTree = "<group>"; };
+		1B647FE2282C4CD000CFB498 /* SearchResultEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultEntity.swift; sourceTree = "<group>"; };
 		D84E7B1027C81B88000DEB5B /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		D8F7604A27C724F900B1AB58 /* API+Abstractions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+Abstractions.swift"; sourceTree = "<group>"; };
 		D8F7604C27C7295500B1AB58 /* GraphQLClient+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphQLClient+Search.swift"; sourceTree = "<group>"; };
@@ -106,8 +112,38 @@
 			isa = PBXGroup;
 			children = (
 				1B647FD5282AF7B300CFB498 /* UINavigationController+StatusBarColor.swift */,
+				1B647FD9282C4AEC00CFB498 /* IntExtension+1000FriendlyK.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1B647FDB282C4C4F00CFB498 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				1B647FDC282C4C5F00CFB498 /* Main */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		1B647FDC282C4C5F00CFB498 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				1B647FDD282C4C7000CFB498 /* Models */,
+				D9A10FA1216C4AFD007998EC /* TableViewController.swift */,
+				D8F7605227C72F1400B1AB58 /* ViewModel.swift */,
+				1B647FD2282AEC9400CFB498 /* View.swift */,
+				1B647FD7282AFA6500CFB498 /* TableViewCell.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		1B647FDD282C4C7000CFB498 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1B647FDF282C4CA800CFB498 /* ViewModelState.swift */,
+				1B647FE2282C4CD000CFB498 /* SearchResultEntity.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		D84E7B0F27C81B69000DEB5B /* Helpers */ = {
@@ -144,14 +180,11 @@
 			children = (
 				1B647FD4282AF78E00CFB498 /* Extensions */,
 				D9A10FCE216C4E71007998EC /* Networking */,
+				1B647FDB282C4C4F00CFB498 /* Scenes */,
 				D9A10F9F216C4AFD007998EC /* AppDelegate.swift */,
 				D9A10FA6216C4AFD007998EC /* Assets.xcassets */,
 				D9A10FAB216C4AFD007998EC /* Info.plist */,
 				D9A10FA8216C4AFD007998EC /* LaunchScreen.storyboard */,
-				D9A10FA1216C4AFD007998EC /* TableViewController.swift */,
-				D8F7605227C72F1400B1AB58 /* ViewModel.swift */,
-				1B647FD2282AEC9400CFB498 /* View.swift */,
-				1B647FD7282AFA6500CFB498 /* TableViewCell.swift */,
 			);
 			path = GithubGraphQL;
 			sourceTree = "<group>";
@@ -363,7 +396,10 @@
 				D9A10FE8216C77CD007998EC /* GraphQLClient.swift in Sources */,
 				D8F7605127C72B1700B1AB58 /* ApolloClient.swift in Sources */,
 				D9C8E128216DBA11002A64FC /* API.swift in Sources */,
+				1B647FE3282C4CD000CFB498 /* SearchResultEntity.swift in Sources */,
+				1B647FDA282C4AEC00CFB498 /* IntExtension+1000FriendlyK.swift in Sources */,
 				1B647FD6282AF7B300CFB498 /* UINavigationController+StatusBarColor.swift in Sources */,
+				1B647FE0282C4CA800CFB498 /* ViewModelState.swift in Sources */,
 				1B647FD8282AFA6500CFB498 /* TableViewCell.swift in Sources */,
 				1B647FD3282AEC9400CFB498 /* View.swift in Sources */,
 				D8F7604B27C724F900B1AB58 /* API+Abstractions.swift in Sources */,
