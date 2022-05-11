@@ -34,15 +34,24 @@ private extension TableViewController {
             switch viewModelState {
             case .hasData(let searchResultViewEntity):
                 self.repositories = searchResultViewEntity.repos
-                //DispatchQueue.main.sync {
-                    self.tableView.reloadData()
-                //}
+                self.tableView.reloadData()
+            case .hasError:
+                self.handleError()
             default:
                 print("Foo")
             }
             
             
         }
+    }
+    
+    func handleError() {
+        let alert = UIAlertController(title: "Error", message: "Someting went wrong. Please try again.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.viewModel.search(phrase: "graphql")
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func setupNavigationBar() {

@@ -11,6 +11,10 @@ enum ViewModelState {
     case isLoading(_ isLoading: Bool)
 }
 
+enum APIError: Error {
+    case generic
+}
+
 final class ViewModel {
     private let client: GraphQLClient
     
