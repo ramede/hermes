@@ -2,8 +2,8 @@ import Apollo
 import ApolloSQLite
 import Foundation
 
-//#error("Replace this API_KEY placeholder with your own GitHub Personal Access Token")
-private let kGitHubBearerToken = "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"
+#error("Replace this API_KEY placeholder with your own GitHub Personal Access Token")
+private let kGitHubBearerToken = "API_KEY"
 private let kGitHubURLPath = "https://api.github.com/graphql"
 
 
