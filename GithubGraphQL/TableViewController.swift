@@ -6,6 +6,8 @@ class TableViewController: UITableViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     private let viewModel = ViewModel()
     private let activityIndicator = UIActivityIndicatorView()
+
+    private var searchTerms = "graphql"
     
     private var repositories: [RepositoryDetails] = []
     
@@ -13,7 +15,7 @@ class TableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        viewModel.search(phrase: "graphql")
+        viewModel.search(phrase: searchTerms)
     }
     
 }
@@ -25,7 +27,7 @@ private extension TableViewController {
         bindViewModelClousures()
         setupActivityIndicator()
         setupNavigationBar()
-        setupSerachController()
+        setupSearchController()
         setupTableView()
         setupConstraints()
     }
@@ -61,7 +63,7 @@ private extension TableViewController {
         tableView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
-    func setupSerachController() {
+    func setupSearchController() {
         definesPresentationContext = true
         searchController.obscuresBackgroundDuringPresentation = true
         searchController.hidesNavigationBarDuringPresentation = true
@@ -71,7 +73,8 @@ private extension TableViewController {
         searchController.searchBar.backgroundImage = UIImage()
         searchController.searchBar.delegate = self
         searchController.searchBar.barTintColor = .systemGray6
-        searchController.searchBar.text = "graphql"
+        searchController.searchBar.delegate = self
+        searchController.searchBar.text = searchTerms
     }
     
     func setupConstraints() {
@@ -105,18 +108,36 @@ private extension TableViewController {
         let alert = UIAlertController(title: "Error", message: "Someting went wrong. Please try again.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
-            self.viewModel.search(phrase: "graphql")
+            self.viewModel.search(phrase: self.searchTerms)
         }))
         self.present(alert, animated: true, completion: nil)
     }
+    
 
 }
 
 // MARK: - SearchBar Delegate
 extension TableViewController: UISearchBarDelegate {
-    
+        
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let searchText = searchController.searchBar.text ?? ""
+        repositories = []
+        viewModel.search(phrase: searchText)
+        searchController.dismiss(animated: true)
     }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchTerms = searchBar.text ?? ""
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchTerms = searchBar.text ?? ""
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.text = searchTerms
+    }
+    
 }
 
 // MARK: - TableView Delegate
@@ -148,7 +169,10 @@ extension TableViewController {
 
 //MARK: - Private Objective-C Actions Implementations
 @objc private extension TableViewController {
+    
     func refresh() {
-        viewModel.search(phrase: "graphql")
+        viewModel.search(phrase: searchTerms)
     }
+    
 }
+
