@@ -57,9 +57,9 @@ private extension TableViewController {
         tableView.backgroundColor = .systemGray6
         tableView.keyboardDismissMode = .onDrag
         tableView.separatorStyle = .singleLine
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.allowsSelection = true
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
@@ -158,12 +158,15 @@ extension TableViewController {
         cell.name = "\(repositories[indexPath.row].owner.login)/\(repositories[indexPath.row].name)"
         cell.repositoryDescription = repositories[indexPath.row].description ?? ""
         cell.stars = String(repositories[indexPath.row].stargazers.totalCount)
+        cell.selectionStyle = .none
         
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let url = URL(string: repositories[indexPath.row].url) {
+            UIApplication.shared.open(url)
+        }
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -172,7 +175,7 @@ extension TableViewController {
             viewModel.search(phrase: searchTerms, endCursor: endCursor)
         }
     }
-    
+
 }
 
 
