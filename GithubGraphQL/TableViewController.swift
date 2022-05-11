@@ -5,14 +5,15 @@ class TableViewController: UITableViewController {
     // MARK: - Private properties
     private let searchController = UISearchController(searchResultsController: nil)
     private let viewModel = ViewModel()
+    private let activityIndicator = UIActivityIndicatorView()
     
     private var repositories: [RepositoryDetails] = []
     
     // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.search(phrase: "graphql")
         setup()
+        viewModel.search(phrase: "graphql")
     }
     
 }
@@ -22,36 +23,18 @@ private extension TableViewController {
     
     func setup() {
         bindViewModelClousures()
+        setupActivityIndicator()
         setupNavigationBar()
         setupSerachController()
         setupTableView()
         setupConstraints()
     }
     
-    func bindViewModelClousures() {
-        viewModel.didUpdateViewState = { [weak self] viewModelState in
-            guard let self = self else { return }
-            switch viewModelState {
-            case .hasData(let searchResultViewEntity):
-                self.repositories = searchResultViewEntity.repos
-                self.tableView.reloadData()
-            case .hasError:
-                self.handleError()
-            default:
-                print("Foo")
-            }
-            
-            
-        }
-    }
-    
-    func handleError() {
-        let alert = UIAlertController(title: "Error", message: "Someting went wrong. Please try again.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.viewModel.search(phrase: "graphql")
-        }))
-        self.present(alert, animated: true, completion: nil)
+    func setupActivityIndicator() {
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.color = .systemBlue
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
     }
     
     func setupNavigationBar() {
@@ -96,6 +79,37 @@ private extension TableViewController {
             searchController.searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
+    
+    func bindViewModelClousures() {
+        viewModel.didUpdateViewState = { [weak self] viewModelState in
+            guard let self = self else { return }
+            switch viewModelState {
+            case .hasData(let searchResultViewEntity):
+                self.repositories = searchResultViewEntity.repos
+                self.tableView.reloadData()
+            case .hasError:
+                self.handleError()
+            case .isLoading(let isLoading):
+                if isLoading {
+                    self.activityIndicator.startAnimating()
+                    return
+                }
+                self.activityIndicator.stopAnimating()
+            }
+            
+            
+        }
+    }
+    
+    func handleError() {
+        let alert = UIAlertController(title: "Error", message: "Someting went wrong. Please try again.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.viewModel.search(phrase: "graphql")
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+
 }
 
 // MARK: - SearchBar Delegate
