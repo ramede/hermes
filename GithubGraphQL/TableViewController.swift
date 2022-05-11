@@ -157,7 +157,7 @@ extension TableViewController {
 
         cell.name = "\(repositories[indexPath.row].owner.login)/\(repositories[indexPath.row].name)"
         cell.repositoryDescription = repositories[indexPath.row].description ?? ""
-        cell.stars = String(repositories[indexPath.row].stargazers.totalCount)
+        cell.stars = repositories[indexPath.row].stargazers.totalCount.roundedWithAbbreviations
         cell.selectionStyle = .none
         
         return cell
