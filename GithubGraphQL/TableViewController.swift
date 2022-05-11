@@ -8,6 +8,7 @@ class TableViewController: UITableViewController {
     private let activityIndicator = UIActivityIndicatorView()
 
     private var searchTerms = "graphql"
+    private var endCursor = ""
     
     private var repositories: [RepositoryDetails] = []
     
@@ -90,7 +91,8 @@ private extension TableViewController {
             self.tableView.refreshControl?.endRefreshing()
             switch viewModelState {
             case .hasData(let searchResultViewEntity):
-                self.repositories = searchResultViewEntity.repos
+                self.repositories.append(contentsOf: searchResultViewEntity.repos)
+                self.endCursor = searchResultViewEntity.pageInfo.endCursor ?? ""
                 self.tableView.reloadData()
             case .hasError:
                 self.handleError()
@@ -140,7 +142,7 @@ extension TableViewController: UISearchBarDelegate {
     
 }
 
-// MARK: - TableView Delegate
+// MARK: - UITableView and UIScrollView Delegate
 extension TableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -164,6 +166,13 @@ extension TableViewController {
         return UITableView.automaticDimension
     }
     
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentOffsetY = scrollView.contentOffset.y
+        if contentOffsetY >= (scrollView.contentSize.height - scrollView.bounds.height) - 20 {
+            viewModel.search(phrase: searchTerms, endCursor: endCursor)
+        }
+    }
+    
 }
 
 
@@ -171,6 +180,7 @@ extension TableViewController {
 @objc private extension TableViewController {
     
     func refresh() {
+        repositories = []
         viewModel.search(phrase: searchTerms)
     }
     

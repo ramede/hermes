@@ -24,10 +24,14 @@ final class ViewModel {
         self.client = client
     }
     
-    func search(phrase: String) {
+    func search(phrase: String, endCursor: String = "") {
         didUpdateViewState?(.isLoading(true))
         
-        self.client.searchRepositories(mentioning: phrase) { [weak self] response in
+        var filter: SearchRepositoriesQuery.Filter? = nil
+        if !endCursor.isEmpty {
+            filter = .after(Cursor(rawValue: endCursor))
+        }
+        self.client.searchRepositories(mentioning: phrase, filter: filter) { [weak self] response in
             guard let self = self else { return }
             
             self.didUpdateViewState?(.isLoading(false))
