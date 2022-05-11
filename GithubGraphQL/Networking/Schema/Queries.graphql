@@ -19,6 +19,7 @@ query SearchRepositories($query: String!, $first: Int, $last: Int, $before: Stri
 
 fragment RepositoryDetails on Repository {
   name
+  description
   url
 
   owner {

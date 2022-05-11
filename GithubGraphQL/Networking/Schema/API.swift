@@ -381,6 +381,7 @@ public struct RepositoryDetails: GraphQLFragment {
     fragment RepositoryDetails on Repository {
       __typename
       name
+      description
       url
       owner {
         __typename
@@ -400,6 +401,7 @@ public struct RepositoryDetails: GraphQLFragment {
     return [
       GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
       GraphQLField("name", type: .nonNull(.scalar(String.self))),
+      GraphQLField("description", type: .scalar(String.self)),
       GraphQLField("url", type: .nonNull(.scalar(String.self))),
       GraphQLField("owner", type: .nonNull(.object(Owner.selections))),
       GraphQLField("stargazers", type: .nonNull(.object(Stargazer.selections))),
@@ -412,8 +414,8 @@ public struct RepositoryDetails: GraphQLFragment {
     self.resultMap = unsafeResultMap
   }
 
-  public init(name: String, url: String, owner: Owner, stargazers: Stargazer) {
-    self.init(unsafeResultMap: ["__typename": "Repository", "name": name, "url": url, "owner": owner.resultMap, "stargazers": stargazers.resultMap])
+  public init(name: String, description: String? = nil, url: String, owner: Owner, stargazers: Stargazer) {
+    self.init(unsafeResultMap: ["__typename": "Repository", "name": name, "description": description, "url": url, "owner": owner.resultMap, "stargazers": stargazers.resultMap])
   }
 
   public var __typename: String {
@@ -432,6 +434,16 @@ public struct RepositoryDetails: GraphQLFragment {
     }
     set {
       resultMap.updateValue(newValue, forKey: "name")
+    }
+  }
+
+  /// The description of the repository.
+  public var description: String? {
+    get {
+      return resultMap["description"] as? String
+    }
+    set {
+      resultMap.updateValue(newValue, forKey: "description")
     }
   }
 
