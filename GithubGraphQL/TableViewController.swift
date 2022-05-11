@@ -4,7 +4,7 @@ class TableViewController: UITableViewController {
     
     private let searchController = UISearchController(searchResultsController: nil)
     
-    private var repositories: [RepositoryDetails] = []
+    private var repositories: [String] = ["Foo", "Foo", "Foo", "Foo"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,8 +44,8 @@ private extension TableViewController {
         tableView.keyboardDismissMode = .onDrag
         tableView.separatorStyle = .singleLine
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = UIScreen.main.bounds.height * 65 / 100
-        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.refreshControl = UIRefreshControl()
     }
     
@@ -75,3 +75,26 @@ extension TableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     }
 }
+
+// MARK: - TableView Delegate
+extension TableViewController {
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return repositories.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "cell",
+            for: indexPath
+        ) as? TableViewCell else { return UITableViewCell() }
+
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+}
+
