@@ -58,6 +58,7 @@ private extension TableViewController {
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
     func setupSerachController() {
@@ -83,6 +84,7 @@ private extension TableViewController {
     func bindViewModelClousures() {
         viewModel.didUpdateViewState = { [weak self] viewModelState in
             guard let self = self else { return }
+            self.tableView.refreshControl?.endRefreshing()
             switch viewModelState {
             case .hasData(let searchResultViewEntity):
                 self.repositories = searchResultViewEntity.repos
@@ -96,8 +98,6 @@ private extension TableViewController {
                 }
                 self.activityIndicator.stopAnimating()
             }
-            
-            
         }
     }
     
@@ -143,4 +143,12 @@ extension TableViewController {
         return UITableView.automaticDimension
     }
     
+}
+
+
+//MARK: - Private Objective-C Actions Implementations
+@objc private extension TableViewController {
+    func refresh() {
+        viewModel.search(phrase: "graphql")
+    }
 }
