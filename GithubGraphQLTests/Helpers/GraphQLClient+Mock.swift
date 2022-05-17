@@ -9,9 +9,9 @@ enum MockGraphQLError: Error {
 struct MockGraphQLClient<Query: GraphQLQuery> {
   typealias ExpectedType = Query
 
-  private let mockedResponse: ExpectedType.Data
+  private let mockedResponse: ExpectedType.Data?
 
-  init(response: ExpectedType.Data) {
+  init(response: ExpectedType.Data?) {
     self.mockedResponse = response
   }
 }
@@ -24,9 +24,13 @@ extension MockGraphQLClient: GraphQLClient {
     queue: DispatchQueue,
     resultHandler: GraphQLResultHandler<Query.Data>?
   ) -> Cancellable {
+    guard let response = self.mockedResponse else {
+       resultHandler?(.failure(MockGraphQLError.queryTypeMismatch))
+       return EmptyCancellable()
+    }
     resultHandler?(
       Query.self == ExpectedType.self
-        ? .success(.init(data: (self.mockedResponse as! Query.Data), extensions: nil, errors: nil, source: .cache, dependentKeys: nil))
+        ? .success(.init(data: (response as! Query.Data), extensions: nil, errors: nil, source: .cache, dependentKeys: nil))
         : .failure(MockGraphQLError.queryTypeMismatch)
     )
     return EmptyCancellable()

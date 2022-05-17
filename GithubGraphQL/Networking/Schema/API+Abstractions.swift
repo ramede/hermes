@@ -26,11 +26,11 @@ extension SearchRepositoriesQuery {
     }
 
     static func before(_ cursor: Cursor?, limit: Int = Self.defaultLimit) -> Self {
-      return .init(cursor, limit, direction: .forward)
+      return .init(cursor, limit, direction: .backward)
     }
 
     static func after(_ cursor: Cursor?, limit: Int = Self.defaultLimit) -> Self {
-      return .init(cursor, limit, direction: .backward)
+      return .init(cursor, limit, direction: .forward)
     }
   }
 }

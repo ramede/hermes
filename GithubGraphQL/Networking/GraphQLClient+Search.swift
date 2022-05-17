@@ -3,7 +3,7 @@ import Foundation
 
 struct RepositorySearchResult {
   let pageInfo: SearchRepositoriesQuery.Data.Search.PageInfo
-  let repos: [RepositoryDetails]
+    let repos: [RepositoryDetails]
 }
 
 enum SearchError: Error {
